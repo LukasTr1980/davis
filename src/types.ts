@@ -29,14 +29,16 @@ export interface SensorActivity {
     time_recorded: number;
 }
 
+export interface CurrentSensorBlock {
+    lsid: number;
+    sensor_type: number;
+    data_structure_type: number;
+    data: unknown[];
+}
+
 export interface CurrentResponse {
-    stations: {
-        station_id: number;
-        last_report_time: number;
-        temp?: { temp: number };
-        humidity?: { rh: number };
-        barometer?: { bar_sea_level: number };
-        wind?: { wind_speed_last: number; wind_dir_last: number };
-        rain?: { rain_rate_last_mm: number };
-    }[];
+    station_id_uuid: string;
+    station_id: number;
+    generated_at: number;
+    sensors: CurrentSensorBlock[];
 }

@@ -1,4 +1,4 @@
-import axios, { type AxiosError } from 'axios';
+import axios from 'axios';
 import { API_KEY, API_SECRET } from './env.js';
 import {
     type StationResponse,
@@ -42,32 +42,24 @@ export async function getSensorActivity() {
 
 export async function getCurrent(
     stationId: number | string
-): Promise<CurrentResponse['stations'][number] | null> {
-    const idPath =
+): Promise<CurrentResponse | null> {
+    const uuid =
         typeof stationId === 'number'
             ? (await getStations()).find(s => s.station_id === stationId)?.station_id_uuid
             : stationId;
-    
-    if (!idPath) {
-        console.warn('No UUID found for station - cannot query /(current');
+
+    if (!uuid) {
+        console.warn('No UUID found for station – cannot query /current');
         return null;
     }
 
     try {
-        const { data } = await axios.get<CurrentResponse>(
-            `${BASE}/current/${idPath}`,
-            cfg()
-        );
-
-        return data.stations?.[0] ?? null;
+        const { data } = await axios.get<CurrentResponse>(`${BASE}/current/${uuid}`, cfg());
+        return data;
     } catch (err: unknown) {
-        if (axios.isAxiosError(err)) {
-            const ax = err as AxiosError<{ error?: { message: string } }>;
-
-            if (ax.response?.status === 403) {
-                console.warn('Basic plan: no permission for current endpoint.');
-                return null;
-            }
+        if (axios.isAxiosError(err) && err.response?.status === 403) {
+            console.warn('Basic plan: no permission for current endpoint.');
+            return null;
         }
         throw err;
     }
