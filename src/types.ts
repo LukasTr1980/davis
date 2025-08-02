@@ -23,6 +23,12 @@ export interface SensorInfo {
     sensor_name: string;
 }
 
+export interface SensorActivity {
+    lsid: number;
+    time_received: number;
+    time_recorded: number;
+}
+
 export interface CurrentResponse {
     stations: {
         station_id: number;

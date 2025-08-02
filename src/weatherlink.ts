@@ -3,6 +3,7 @@ import { API_KEY, API_SECRET } from './env.js';
 import {
     type StationResponse,
     type NodeInfo,
+    type SensorActivity,
     type SensorInfo,
     type CurrentResponse,
 } from './types.js';
@@ -12,7 +13,7 @@ const BASE = 'https://api.weatherlink.com/v2';
 function cfg() {
     return {
         headers: { 'X-Api-Secret': API_SECRET },
-        params:  { 'api-key': API_KEY }
+        params: { 'api-key': API_KEY }
     };
 }
 
@@ -29,6 +30,14 @@ export async function getNodes() {
 export async function getSensors() {
     const { data } = await axios.get<{ sensors: SensorInfo[] }>(`${BASE}/sensors`, cfg());
     return data.sensors;
+}
+
+export async function getSensorActivity() {
+    const { data } = await axios.get<{ sensor_activity: SensorActivity[] }>(
+        `${BASE}/sensor-activity`,
+        cfg()
+    );
+    return data.sensor_activity;
 }
 
 export async function getCurrent(
