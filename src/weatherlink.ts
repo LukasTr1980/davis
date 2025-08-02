@@ -43,9 +43,19 @@ export async function getSensorActivity() {
 export async function getCurrent(
     stationId: number | string
 ): Promise<CurrentResponse['stations'][number] | null> {
+    const idPath =
+        typeof stationId === 'number'
+            ? (await getStations()).find(s => s.station_id === stationId)?.station_id_uuid
+            : stationId;
+    
+    if (!idPath) {
+        console.warn('No UUID found for station - cannot query /(current');
+        return null;
+    }
+
     try {
         const { data } = await axios.get<CurrentResponse>(
-            `${BASE}/current/${stationId}`,
+            `${BASE}/current/${idPath}`,
             cfg()
         );
 
