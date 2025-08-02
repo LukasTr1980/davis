@@ -1,12 +1,55 @@
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 import { API_KEY, API_SECRET } from './env.js';
-import { type StationResponse } from './types.js';
+import {
+    type StationResponse,
+    type NodeInfo,
+    type SensorInfo,
+    type CurrentResponse,
+} from './types.js';
 
-export async function getStations(): Promise<StationResponse> {
-    const url = 'https://api.weatherlink.com/v2/stations';
-    const { data } = await axios.get<StationResponse>(url, {
+const BASE = 'https://api.weatherlink.com/v2';
+
+function cfg() {
+    return {
         headers: { 'X-Api-Secret': API_SECRET },
-        params: { 'api-key': API_KEY }
-    });
-    return data;
+        params:  { 'api-key': API_KEY }
+    };
+}
+
+export async function getStations() {
+    const { data } = await axios.get<StationResponse>(`${BASE}/stations`, cfg());
+    return data.stations;
+}
+
+export async function getNodes() {
+    const { data } = await axios.get<{ nodes: NodeInfo[] }>(`${BASE}/nodes`, cfg());
+    return data.nodes;
+}
+
+export async function getSensors() {
+    const { data } = await axios.get<{ sensors: SensorInfo[] }>(`${BASE}/sensors`, cfg());
+    return data.sensors;
+}
+
+export async function getCurrent(
+    stationId: number | string
+): Promise<CurrentResponse['stations'][number] | null> {
+    try {
+        const { data } = await axios.get<CurrentResponse>(
+            `${BASE}/current/${stationId}`,
+            cfg()
+        );
+
+        return data.stations?.[0] ?? null;
+    } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+            const ax = err as AxiosError<{ error?: { message: string } }>;
+
+            if (ax.response?.status === 403) {
+                console.warn('Basic plan: no permission for current endpoint.');
+                return null;
+            }
+        }
+        throw err;
+    }
 }

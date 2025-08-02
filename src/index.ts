@@ -1,19 +1,32 @@
-import { getStations } from './weatherlink.js';
-import { type StationInfo, type StationResponse } from './types.js';
+import { getStations, getNodes, getSensors, getCurrent } from "./weatherlink.js";
 
 async function main(): Promise<void> {
-    try {
-        const res: StationResponse = await getStations();
-        const stations: StationInfo[] = res.stations;
+    const stations = await getStations();
+    console.log('Station-Metadata:', stations);
 
-        console.log(JSON.stringify(stations, null, 2));
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            console.error('Error:', err.message);
-        } else {
-            console.error('Unknown Error:', err);
-        }
+    if (!stations.length) {
+        console.error('No Station found');
+        return;
+    }
+
+    const firstId = stations[0].station_id;
+
+    const [nodes, sensors, current] = await Promise.all([
+        getNodes(),
+        getSensors(),
+        getCurrent(firstId)
+    ]);
+
+    console.log('\nNodes:', nodes);
+    console.log('Sensors:', sensors);
+
+    if (current) {
+        console.log('\nCurrent Dataset:', current);
+    } else {
+        console.log('\nCurrent Dataset: none available.');
     }
 }
 
-void main();
+main().catch((err: unknown) => {
+    console.error('Unhandled error', err instanceof Error ? err.message : err);
+}) 
