@@ -9,9 +9,9 @@ async function main(): Promise<void> {
         console.log(JSON.stringify(stations, null, 2));
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.error('Fehler:', err.message);
+            console.error('Error:', err.message);
         } else {
-            console.error('Unbekannter Fehler:', err);
+            console.error('Unknown Error:', err);
         }
     }
 }
