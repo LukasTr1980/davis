@@ -4,9 +4,7 @@ import {
     getSensorActivity,
     getCurrent
 } from './weatherlink.js';
-import { flattenCurrent, appendJsonLine, initLog } from './util.js';
-
-initLog('current.log');
+import { flattenCurrent } from './util.js';
 
 async function main(): Promise<void> {
     const stations = await getStations();
@@ -29,8 +27,6 @@ async function main(): Promise<void> {
     if (current) {
         const flat = flattenCurrent(current);
         console.log('Current (flat):', flat);
-
-        appendJsonLine('current.log', flat);
     } else {
         console.warn('Current Dataset: none available.');
     }

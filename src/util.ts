@@ -1,6 +1,4 @@
-import { existsSync, mkdirSync, appendFileSync, writeFileSync } from "node:fs";
 import { type CurrentResponse } from "./types.js";
-import path from "node:path";
 
 export function flattenCurrent(payload: CurrentResponse) {
     const out: Record<string, unknown> = {
@@ -16,14 +14,4 @@ export function flattenCurrent(payload: CurrentResponse) {
         });
     }
     return out;
-}
-
-export function appendJsonLine(file: string, obj: unknown) {
-    if (!existsSync('logs')) mkdirSync('logs');
-    appendFileSync(`logs/${file}`, JSON.stringify(obj) + '\n');
-}
-
-export function initLog(file: string) {
-    if (!existsSync('logs')) mkdirSync('logs');
-    writeFileSync(path.join('logs', file), '');
 }
