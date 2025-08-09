@@ -10,12 +10,12 @@
 
  ## Installation
  ```bash
- npm install davis
+ npm install @lukastr1980/davis
  ```
 
  ## Usage
  ```ts
- import { WeatherlinkClient, flattenCurrent, flattenHistoric } from "davis";
+ import { WeatherlinkClient, flattenCurrent, flattenHistoric } from "@lukastr1980/davis";
 
  (async () => {
    const client = new WeatherlinkClient({

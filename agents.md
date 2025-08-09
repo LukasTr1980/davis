@@ -18,7 +18,7 @@ This guide shows patterns and copy‑pasteable examples for:
 Install the package:
 
 ```bash
-npm install davis
+npm install @lukastr1980/davis
 ```
 
 
@@ -27,7 +27,7 @@ Create a small script and run it with node or tsx. This skeleton wires up the cl
 
 ```ts
 // agent.ts
-import { WeatherlinkClient } from 'davis';
+import { WeatherlinkClient } from '@lukastr1980/davis';
 
 const client = new WeatherlinkClient({
   apiKey: process.env.API_KEY!,
@@ -71,7 +71,7 @@ Sends an alert when a signal crosses a threshold (e.g., high wind, heavy rain). 
 
 ```ts
 // alert-agent.ts
-import { WeatherlinkClient, flattenCurrent } from 'davis';
+import { WeatherlinkClient, flattenCurrent } from '@lukastr1980/davis';
 
 const client = new WeatherlinkClient({
   apiKey: process.env.API_KEY!,
@@ -122,7 +122,7 @@ If `getCurrent` is not available, query small historic windows and treat the mos
 
 ```ts
 // basic-current.ts
-import { WeatherlinkClient, flattenHistoric } from 'davis';
+import { WeatherlinkClient, flattenHistoric } from '@lukastr1980/davis';
 
 const client = new WeatherlinkClient({ apiKey: process.env.API_KEY!, apiSecret: process.env.API_SECRET! });
 const STATION: number | string = Number(process.env.STATION_ID ?? '') || (process.env.STATION_UUID ?? '');
@@ -145,7 +145,7 @@ Continuously ingest historic data into a local CSV file. The agent tracks the la
 
 ```ts
 // ingest-csv.ts
-import { WeatherlinkClient, flattenHistoric } from 'davis';
+import { WeatherlinkClient, flattenHistoric } from '@lukastr1980/davis';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
@@ -201,7 +201,7 @@ Compute a daily report (min/max/avg) and post it to a webhook.
 
 ```ts
 // daily-summary.ts
-import { WeatherlinkClient, flattenHistoric } from 'davis';
+import { WeatherlinkClient, flattenHistoric } from '@lukastr1980/davis';
 import axios from 'axios';
 
 const client = new WeatherlinkClient({ apiKey: process.env.API_KEY!, apiSecret: process.env.API_SECRET! });
