@@ -42,3 +42,5 @@ export interface CurrentResponse {
     generated_at: number;
     sensors: CurrentSensorBlock[];
 }
+
+export type HistoricResponse = CurrentResponse;
