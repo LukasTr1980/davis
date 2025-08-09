@@ -1,5 +1,5 @@
 {
-  "name": "davis",
+  "name": "@lukastr1980/davis",
   "version": "1.0.1",
   "private": false,
   "description": "",
@@ -33,6 +33,13 @@
     "rel:patch": "npm version patch --no-git-tag-version",
     "rel:minor": "npm version minor --no-git-tag-version",
     "rel:major": "npm version major --no-git-tag-version"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukasTr1980/davis.git"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
