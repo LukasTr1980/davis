@@ -1,6 +1,6 @@
 {
   "name": "@lukastr1980/davis",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "description": "",
   "license": "ISC",
@@ -11,14 +11,12 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/index.d.ts"
     }
   },
   "sideEffects": false,
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "files": [
     "dist",

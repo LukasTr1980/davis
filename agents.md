@@ -13,7 +13,7 @@ This guide shows patterns and copy‑pasteable examples for:
 
 ## Prerequisites
 - Weatherlink API credentials: set environment variables `API_KEY` and `API_SECRET`.
-- Node.js 18+.
+- Node.js 20+.
 
 Install the package:
 
