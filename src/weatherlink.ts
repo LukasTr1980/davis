@@ -14,13 +14,14 @@ export interface WeatherlinkClientConfig {
     apiKey: string;
     apiSecret: string;
     axiosConfig?: AxiosRequestConfig;
+    axiosInstance?: AxiosInstance;
 }
 
 export class WeatherlinkClient {
     private readonly axios: AxiosInstance;
 
     constructor(config: WeatherlinkClientConfig) {
-        this.axios = axios.create({
+        this.axios = config.axiosInstance ?? axios.create({
             baseURL: BASE_URL,
             headers: { 'X-Api-Secret': config.apiSecret },
             params: { 'api-key': config.apiKey },

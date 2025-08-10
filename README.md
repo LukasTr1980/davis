@@ -13,6 +13,21 @@
  npm install @lukastr1980/davis
  ```
 
+
+## Running tests
+
+- Unit tests (no network):
+  - `npm test`
+  - Uses Node's built-in test runner and fakes HTTP calls. Fast and deterministic.
+- Integration tests (real Weatherlink API):
+  - Create a `.env` file in the project root with:
+    - `RUN_INTEGRATION=1`
+    - `API_KEY=...`
+    - `API_SECRET=...`
+    - Optionally `STATION_ID=...` or `STATION_UUID=...`
+  - Then run `npm test`. The tests will read `.env` automatically and print a short summary of live responses.
+  - Alternatively, set these environment variables in your shell instead of using `.env`.
+
  ## Usage
  ```ts
  import { WeatherlinkClient, flattenCurrent, flattenHistoric } from "@lukastr1980/davis";
@@ -55,3 +70,16 @@
  | `iterateHistoric(stationId, start, end, windowSeconds?)` | Async iterator yielding historic data in time windows. |
  | `flattenCurrent` | Flatten nested current observation payload to flat object. |
  | `flattenHistoric` | Flatten nested historic payload to list of flat objects sorted by timestamp. |
+
+### WeatherlinkClient options
+
+```ts
+new WeatherlinkClient({
+  apiKey: '...',
+  apiSecret: '...',
+  axiosConfig: { timeout: 15000 }, // optional axios request config
+  axiosInstance,                    // optional custom axios instance (useful for tests)
+});
+```
+
+The `axiosInstance` option lets you inject a preconfigured axios client (or a stub) for unit testing without real HTTP requests.
