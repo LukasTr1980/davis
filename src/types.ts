@@ -44,3 +44,5 @@ export interface CurrentResponse {
 }
 
 export type HistoricResponse = CurrentResponse;
+
+export type JsonObject = Record<string, unknown>;
